@@ -1,4 +1,6 @@
 const { ApolloServer } = require('apollo-server');
+const mongoose = require('mongoose')
+const { MONGODB } = require('./config.js')
 const gql = require('graphql-tag')
 // gql comes with apollo server
 
@@ -28,7 +30,11 @@ const server = new ApolloServer({
 // don't need resolvers: resolvers 
 
 
-// launch server
-server.listen({ port: 4000 }).then((resp) => {
+mongoose.connect(MONGODB, { useNewUrlParser: true })
+    .then(() => {
+        console.log('MongoDB Connected');
+        return server.listen({ port: 4000 });
+    })
+    .then((resp) => {
     console.log(`Server running at ${resp.url}`);
 })
