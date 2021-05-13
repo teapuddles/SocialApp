@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/teapuddles/SocialApp/issues"
   },
-  "homepage": "https://github.com/teapuddles/SocialApp#readme"
+  "homepage": "https://github.com/teapuddles/SocialApp#readme",
+  "dependencies": {
+    "apollo-server": "^2.24.0",
+    "graphql": "^15.5.0",
+    "mongoose": "^5.12.8"
+  }
 }
