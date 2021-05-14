@@ -1,15 +1,25 @@
 const { ApolloServer } = require('apollo-server');
 const mongoose = require('mongoose')
-const { MONGODB } = require('./config.js')
 const gql = require('graphql-tag')
 // gql comes with apollo server
+const Post = require('./models/Post')
+const { MONGODB } = require('./config.js')
 
 // typedefs are where we define all of 
 // our queries etc for GraphQL 
-// this is like setting up class attributes in ruby a bit
+// this is like setting up class attributes but for gql
 const typeDefs = gql`
+# define what a post is for gql so it can read what comes in the query appropriately 
+    type Post{
+        id: ID!,
+        body: String!,
+        createdAt: String!,
+        username: String!
+    }
     type Query{
-        sayHi: String!
+        # this getPosts query won't work unless there is an entry for Posts in our db,
+        # consider creating a new entry @ mongodb
+        getPosts: [Post]
     }
 `
 // for each query/mutuation/subscription
@@ -17,9 +27,16 @@ const typeDefs = gql`
 const resolvers = {
     Query: {
         // our querys etc are written out as functions here
-        sayHi: () => 'Hello World'
+        // queries are like any other request, so we'll do it async/await
+        async getPosts(){
+            try{
+                const posts = await Post.find()
+                return posts
+            } catch(err) {
+                throw new Error(err)
+            }
+        }
     } 
-
 }
 
 const server = new ApolloServer({

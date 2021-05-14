@@ -1,5 +1,6 @@
 const { model, Schema } = requires('mongoose');
 
+const
 const postSchema = new Schema({
      body: String,
      username: String,
@@ -14,7 +15,7 @@ const postSchema = new Schema({
              username: String,
              createdAt: String
          }
-        ],
+         ],
      likes: [
          {
             username: String,
@@ -30,3 +31,5 @@ const postSchema = new Schema({
             ref: 'users'
         }
 })
+
+module.exports = model('Post', postSchema)
